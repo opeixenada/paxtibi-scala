@@ -20,7 +20,7 @@ class ProposerActor(acceptorsClient: AcceptorsClient, quorum: Int) extends Actor
 
     case p@Promise(n, _) =>
       val proposalPromises = promises.getOrElse(n, Seq.empty) :+ p
-      promises = promises.removed(n) + (n -> proposalPromises)
+      promises = promises + (n -> proposalPromises)
       if (proposalPromises.length >= quorum) {
         println(s"Got quorum for proposal #$n!")
         val acceptedProposals = proposalPromises.flatMap(_.acceptedProposal)
